@@ -6,6 +6,15 @@ import PostItem from './PostItem';
 
 interface PostData {
   id: string;
+  body: string;
+  createdAt: Date | null; // Updated type to handle null
+  user: {
+    id: string;
+    name: string;
+    username: string;
+  };
+  comments?: string[]; // Adjusted type to string[]
+  likedIds?: string[]; // Adjusted type to string[]
 }
 
 interface PostFeedProps {
@@ -18,7 +27,7 @@ const PostFeed: React.FC<PostFeedProps> = ({ userId }) => {
   return (
     <>
       {posts.map((post: PostData) => (
-        <PostItem userId={userId} key={post.id} data={post} />
+        <PostItem key={post.id} data={post} />
       ))}
     </>
   );

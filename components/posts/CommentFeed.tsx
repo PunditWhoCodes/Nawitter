@@ -1,9 +1,18 @@
 import React from 'react';
-
 import CommentItem from './CommentItem';
+
+interface UserData {
+  id: string;
+  name: string;
+  username: string;
+  // Add other properties as needed
+}
 
 interface Comment {
   id: string;
+  user: UserData;
+  body: string;
+  createdAt: Date;
   // Add other properties if needed
 }
 
