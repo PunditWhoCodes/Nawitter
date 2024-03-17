@@ -34,7 +34,8 @@ const PostItem: React.FC<PostItemProps> = ({ data }) => {
 
   const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart; // Determine which icon to display based on hasLiked state
 
-  const createdAt = data.createdAt instanceof Date ? data.createdAt.toISOString() : '';
+  const createdAt = data.createdAt ? new Date(data.createdAt).toISOString() : null;
+
 
 
   return (
