@@ -1,3 +1,5 @@
+import React from 'react'; 
+
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
 

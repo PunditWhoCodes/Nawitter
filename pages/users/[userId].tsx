@@ -1,3 +1,5 @@
+import React from 'react'; 
+
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
 
@@ -7,8 +9,6 @@ import PostFeed from "@/components/posts/PostFeed";
 import Header from "@/components/Header";
 import UserBio from "@/components/users/UserBio";
 import UserHero from "@/components/users/UserHero";
-
-
 
 const UserView = () => {
   const router = useRouter();

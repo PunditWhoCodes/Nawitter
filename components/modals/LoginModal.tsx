@@ -1,3 +1,4 @@
+import React from 'react'; 
 import useLoginModal from "@/hooks/useLoginModal";
 import { useCallback, useState } from "react";
 import Input from "../Input";
@@ -39,7 +40,7 @@ const LoginModal = () => {
         } finally{
             setIsLoading(false);
         }
-    },[LoginModal, email, password]);
+    },[loginModal, email, password]);
 
     const bodyContent = (
         <div className="flex flex-col gap-4">

@@ -1,3 +1,4 @@
+import React from 'react'; 
 import { useCallback } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import Button from "./Button";
@@ -7,8 +8,8 @@ interface ModalProps {
   onClose: () => void;
   onSubmit: () => void;
   title?: string;
-  body?: React.ReactElement;
-  footer?: React.ReactElement;
+  body?: React.ReactNode; 
+  footer?: React.ReactNode;
   actionLabel: string;
   disabled?: boolean;
 }

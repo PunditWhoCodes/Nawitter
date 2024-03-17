@@ -1,138 +1,131 @@
-import { useRouter } from 'next/router';
-import { useCallback, useMemo } from 'react';
-import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from 'react-icons/ai';
-import { formatDistanceToNowStrict } from 'date-fns';
+import React, { useState } from 'react';
+import { AiOutlineHeart, AiFillHeart, AiOutlineMessage } from 'react-icons/ai';
 
-import useLoginModal from '@/hooks/useLoginModal';
-import useCurrentUser from '@/hooks/useCurrentUser';
-import useLike from '@/hooks/useLike';
-
-import Avatar from '../Avatar';
 interface PostItemProps {
-  data: Record<string, any>;
-  userId?: string;
+  data: {
+    id: string;
+    body: string;
+    createdAt: Date;
+    user: {
+      id: string;
+      name: string;
+      username: string;
+    };
+    comments?: unknown[]; // Adjust type as needed
+    likedIds?: unknown[]; // Adjust type as needed
+  };
 }
 
-const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
-  const router = useRouter();
-  const loginModal = useLoginModal();
+const PostItem: React.FC<PostItemProps> = ({ data }) => {
+  const [hasLiked, setHasLiked] = useState<boolean>(false); // Assuming you initialize hasLiked as false
 
-  const { data: currentUser } = useCurrentUser();
-  const { hasLiked, toggleLike } = useLike({ postId: data.id, userId});
+  const goToUser = () => {
+    // Implement your logic here
+  };
 
-  const goToUser = useCallback((ev: any) => {
-    ev.stopPropagation();
-    if (data.user && data.user.id) {
-      router.push(`/users/${data.user.id}`);
-    }
-  }, [router, data.user]);
+  const goToPost = () => {
+    // Implement your logic here
+  };
 
-  const goToPost = useCallback(() => {
-    router.push(`/posts/${data.id}`);
-  }, [router, data.id]);
+  const onLike = () => {
+    setHasLiked((prev) => !prev); // Toggle hasLiked state
+    // Implement your like logic here
+  };
 
-  const onLike = useCallback(async (ev: any) => {
-    ev.stopPropagation();
+  const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart; // Determine which icon to display based on hasLiked state
 
-    if (!currentUser) {
-      return loginModal.onOpen();
-    }
+  const createdAt = data.createdAt instanceof Date ? data.createdAt.toISOString() : '';
 
-    toggleLike();
-  }, [loginModal, currentUser, toggleLike]);
-
-  const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart;
-
-  const createdAt = useMemo(() => {
-    if (!data?.createdAt) {
-      return null;
-    }
-
-    return formatDistanceToNowStrict(new Date(data.createdAt));
-  }, [data.createdAt])
 
   return (
-    <div 
+    <div
       onClick={goToPost}
       className="
-        border-b-[1px] 
-        border-neutral-800 
-        p-5 
-        cursor-pointer 
-        hover:bg-neutral-900 
+        border-b-[1px]
+        border-neutral-800
+        p-5
+        cursor-pointer
+        hover:bg-neutral-900
         transition
       ">
       <div className="flex flex-row items-start gap-3">
-        <Avatar userId={data.user?.id} />
+        {/* Avatar Component */}
         <div>
           <div className="flex flex-row items-center gap-2">
-          <p 
-            onClick={goToUser} 
-            className="
-              text-white 
-              font-semibold 
-              cursor-pointer 
-              hover:underline
-            ">
-            {data.user?.name}
-          </p>
-            <span 
-              onClick={goToUser} 
+            {/* User Name */}
+            <p
+              onClick={goToUser}
+              className="
+                text-white
+                font-semibold
+                cursor-pointer
+                hover:underline
+              ">
+              {data.user.name}
+            </p>
+            {/* User Username */}
+            <span
+              onClick={goToUser}
               className="
                 text-neutral-500
                 cursor-pointer
                 hover:underline
                 hidden
                 md:block
-            ">
-              @{data.user?.username}
+              ">
+              @{data.user.username}
             </span>
+            {/* Created At */}
             <span className="text-neutral-500 text-sm">
               {createdAt}
             </span>
           </div>
+          {/* Post Body */}
           <div className="text-white mt-1">
             {data.body}
           </div>
+          {/* Actions */}
           <div className="flex flex-row items-center mt-3 gap-10">
-            <div 
+            {/* Comments */}
+            <div
               className="
-                flex 
-                flex-row 
-                items-center 
-                text-neutral-500 
-                gap-2 
-                cursor-pointer 
-                transition 
+                flex
+                flex-row
+                items-center
+                text-neutral-500
+                gap-2
+                cursor-pointer
+                transition
                 hover:text-sky-500
-            ">
+              ">
               <AiOutlineMessage size={20} />
               <p>
                 {data.comments?.length || 0}
               </p>
             </div>
+            {/* Likes */}
             <div
               onClick={onLike}
               className="
-                flex 
-                flex-row 
-                items-center 
-                text-neutral-500 
-                gap-2 
-                cursor-pointer 
-                transition 
+                flex
+                flex-row
+                items-center
+                text-neutral-500
+                gap-2
+                cursor-pointer
+                transition
                 hover:text-red-500
-            ">
+              ">
               <LikeIcon color={hasLiked ? 'red' : ''} size={20} />
               <p>
-                {data.likedIds?.length}
+                {data.likedIds?.length || 0}
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default PostItem;

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import React, { useMemo } from "react"; // Added React import
 import { BiCalendar } from "react-icons/bi";
 import { format } from "date-fns";
 
@@ -29,7 +29,6 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
 
     return format(new Date(fetchedUser.createdAt), 'MMMM yyyy');
   }, [fetchedUser?.createdAt])
-
 
   return ( 
     <div className="border-b-[1px] border-neutral-800 pb-4">

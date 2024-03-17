@@ -1,6 +1,6 @@
+import React, { useCallback } from 'react'; 
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
 
 import useUser from "@/hooks/userUser";
 
@@ -15,7 +15,7 @@ const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
 
   const { data: fetchedUser } = useUser(userId);
 
-  const onClick = useCallback((event: any) => {
+  const onClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
 
     const url = `/users/${userId}`;
@@ -35,6 +35,7 @@ const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
         cursor-pointer
         relative
       `}
+      onClick={onClick}
     >
       <Image
         fill
@@ -43,7 +44,6 @@ const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
           borderRadius: '100%'
         }}
         alt="Avatar"
-        onClick={onClick}
         src={fetchedUser?.profileImage || '/images/placeholder.png'}
       />
     </div>

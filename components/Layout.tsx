@@ -1,3 +1,4 @@
+import React from 'react'; 
 import FollowBar from "./layout/FollowBar";
 import Sidebar from "./layout/Sidebar";
 
